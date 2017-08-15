@@ -21,30 +21,40 @@ app.controller("policyScheduleController", function($timeout,$scope, $http){
     $scope.month_day_type_list = month_day_type_list;
     $scope.week_days_list = week_days_list;
     $scope.retention_period_list = retention_period_list;        
+    $scope.hours_list = [];
+    for(var i=0; i< 24; i++){
+        $scope.hours_list.push({"name":i+"","value":i+""});
+    }
+    $scope.minutes_list = [];
+    for(var i=0; i< 60; i++){
+        $scope.minutes_list.push({"name":i+"","value":i+""});
+    }
 
 //model variable for hourly
+
     $scope.hourly_every_hour = 1;
-    $scope.hourly_starts_hour = 12;
-    $scope.hourly_starts_min = 0;
+    $scope.hourly_starts_hour = $scope.hours_list[12].value;
+    $scope.hourly_starts_min = $scope.minutes_list[0].value;
     $scope.hourly_radio = "hourly_every";
     $scope.hourly_retention_period = 0;
     $scope.hourly_retention = $scope.retention_period_list[0];
     //cron model variable
     $scope.hourly_cron="";
+    //console.log($scope.hours_list)
 
 //model variable for daily
     $scope.daily_every_day = 1;
     $scope.daily_radio = "daily_every";
-    $scope.daily_starts_hour = 12;
-    $scope.daily_starts_min = 0;
+    $scope.daily_starts_hour = $scope.hours_list[12].value;
+    $scope.daily_starts_min = $scope.minutes_list[0].value;
     $scope.daily_retention_period = 0;
     $scope.daily_retention = $scope.retention_period_list[0];
     //cron model variable
     $scope.daily_cron="as";
 
 //model variable for weekly
-    $scope.weekly_starts_hour = 12;
-    $scope.weekly_starts_min = 0;
+    $scope.weekly_starts_hour = $scope.hours_list[12].value;
+    $scope.weekly_starts_min = $scope.minutes_list[0].value;
     $scope.selectedDays = new Array(7);    
     $scope.weekly_retention_period = 0;
     $scope.weekly_retention = $scope.retention_period_list[0];
@@ -57,8 +67,8 @@ app.controller("policyScheduleController", function($timeout,$scope, $http){
     $scope.monthly_day = 1;
     $scope.monthly_month = 1;
     $scope.monthly_every_month = 1;
-    $scope.monthly_starts_hour = 12;
-    $scope.monthly_starts_min = 0;
+    $scope.monthly_starts_hour = $scope.hours_list[12].value;
+    $scope.monthly_starts_min = $scope.minutes_list[0].value;
     $scope.monthly_radio = "monthly_radio_day"
     $scope.monthly_retention_period = 0;
     $scope.monthly_retention = $scope.retention_period_list[0];
@@ -66,13 +76,13 @@ app.controller("policyScheduleController", function($timeout,$scope, $http){
     $scope.monthly_cron="";
 
 //model variable for yearly
-    $scope.yearly_every_year = 1;
+    $scope.yearly_every_year = $scope.months_list[0].value;
     $scope.yearly_the_mon_day = $scope.month_day_type_list[0];
     $scope.yearly_the_week_day = $scope.week_days_list[0];
-    $scope.yearly_the_year = 1;
+    $scope.yearly_the_year = $scope.months_list[0].value;
     $scope.yearly_every_day = 1;
-    $scope.yearly_starts_hour = 12;
-    $scope.yearly_starts_min = 0;
+    $scope.yearly_starts_hour =$scope.hours_list[12].value;
+    $scope.yearly_starts_min = $scope.minutes_list[0].value;
     $scope.yearly_radio = "yearly_radio_every";
     $scope.yearly_retention_period = 0;
     $scope.yearly_retention = $scope.retention_period_list[0];
@@ -87,7 +97,7 @@ app.controller("policyScheduleController", function($timeout,$scope, $http){
         $scope[crontype] = !$scope[crontype];       
     }    
 
-    //function to generate json
+    //function to generate Model JSON
     $scope.generateJSON = function(){
         
         $scope.policy.name = $scope.policyName;
@@ -154,7 +164,7 @@ app.controller("policyScheduleController", function($timeout,$scope, $http){
 
     }
 
-    // function to populate cron expression in model varibles
+    // function to populate cron expression in varibles
     $scope.getData = function(){
         if($scope.hourly == true){
             var hourly_uri = "";
@@ -231,6 +241,27 @@ app.controller("policyScheduleController", function($timeout,$scope, $http){
         }
     }
 
+   // function to post data to rest api
+    $scope.sendData = function(){
+        $scope.getData();
+        setTimeout(function(){
+            var data = $.param({            
+            json: JSON.stringify($scope.policy)
+        });
+        //console.log($scope.policy+ "   "+ data);
+       
+            $http({
+                method: 'POST',
+                url: 'http:cron-assignment.herokuapp.com/data', /* some dummy url please modify as per your post api url */
+                headers: {
+                    'Content-Type': 'application/json', /*or whatever type is relevant */
+                    'Accept': 'application/json' 
+                },
+                data:$scope.policy
+            })
+        },2000)
+    }
+
     //function to get cron expression for each cron type(hourly, daily, weekly, monthly, yearly)
     $scope.getCron = function(resource, expression){
         var result="";
@@ -255,19 +286,21 @@ app.controller("policyScheduleController", function($timeout,$scope, $http){
 
 
 var months_list = [
-    "January",
-    "Feburary",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
+    {name :"January", value:"1"},
+    {name :"Feburary", value:"2"},
+    {name :"March", value:"3"},
+    {name :"April", value:"4"},
+    {name :"May", value:"5"},
+    {name :"June", value:"6"},
+    {name :"July", value:"7"},
+    {name :"August", value:"8"},
+    {name :"September", value:"9"},
+    {name :"October", value:"10"},
+    {name :"November", value:"11"},
+    {name :"December", value:"12"},
 ];
+
+
 
 var month_day_type_list = [
     "First", 

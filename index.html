@@ -15,11 +15,12 @@
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
 
+    <script src="js/jquery-3.2.1.min.js">  </script>
     <script src="js/bootstrap.js"></script>
 
     <!--Angular import -->
     <script src="lib/angular1.4.8.js"></script>
-
+    
     <!--Controller import-->
     <script src="controller/policyScheduleController.js" ></script>
 </head>
@@ -58,37 +59,45 @@
                     </label>
                 </div>
             </div>
-            <div class="col-md-offset-2 col-md-8 well" ng-show="hourly">
-                <div class="row">
-                    <div class="radio col-md-3">
-                        <label>
-                            <input type="radio" ng-model="hourly_radio" name="hourly_radio" id="hourly_radio1" value="hourly_every" checked/> Every
-                        </label>
+            <div class="col-md-offset-2 col-md-8" ng-show="hourly">
+                <div class="well">
+                    <div class="row">
+                        <div class="radio col-md-3">
+                            <label>
+                                <input type="radio" ng-model="hourly_radio" name="hourly_radio" id="hourly_radio1" value="hourly_every" checked/> Every
+                            </label>
+                        </div>
+                        <div class="col-md-6" style="display:flex;">
+                            <input ng-model="hourly_every_hour" type="number" class="form-control" min="1"/> <span> hour(s)</span>
+                        </div>
                     </div>
-                    <div class="col-md-6" style="display:flex;">
-                        <input ng-model="hourly_every_hour" type="number" class="form-control" min="1"/> <span> hour(s)</span>
+                    <br>
+                    <div class="row" >
+                        <div class="radio col-md-3">
+                            <label>
+                                <input type="radio" ng-model="hourly_radio" name="hourly_radio" id="hourly_radio2" value="hourly_starts"> Starts at
+                            </label>
+                        </div>
+                        <div class="col-md-6" style="display:flex;">
+                            <select class="form-control" ng-model="hourly_starts_hour">
+                                <option ng-repeat="opt in hours_list" value="{{opt.value}}">{{opt.name}}</option>                           
+                            </select>
+                            <select class="form-control" ng-model="hourly_starts_min">
+                                <option ng-repeat="opt in minutes_list" value="{{opt.value}}">{{opt.name}}</option>                           
+                            </select>
+                            
+                        </div>
                     </div>
+                    <br>
                 </div>
-                <br>
-                <div class="row" >
-                    <div class="radio col-md-3">
-                        <label>
-                            <input type="radio" ng-model="hourly_radio" name="hourly_radio" id="hourly_radio2" value="hourly_starts"> Starts at
-                        </label>
-                    </div>
-                    <div class="col-md-6" style="display:flex;">
-                        <input ng-model="hourly_starts_hour" type="number" class="form-control" min="0" max="23"/><input ng-model="hourly_starts_min" type="number" class="form-control" min="0" max="59"/>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
+                <div class="row well">
                     <label for="retention" class="col-md-3 control-label">Retention</label>
                     <div class="col-md-4">
                         <input ng-model="hourly_retention_period" type="number" class="form-control" id="retention" placeholder="period" />
                     </div>
                     <div class="col-md-5">                        
                         <select class="form-control" ng-model="hourly_retention">
-                            <option ng-repeat="opt in retention_period_list">{{opt}}</option>                            
+                            <option ng-repeat="opt in retention_period_list">{{opt}}</option>                           
                         </select>
                     </div>
                 </div>
@@ -102,38 +111,46 @@
                     </label>
                 </div>
             </div>            
-            <div class="col-md-offset-2 col-md-8 well" ng-show="daily">
-                <div class="row">
-                    <div class="radio col-md-3">
-                        <label>
-                            <input type="radio" ng-model="daily_radio" name="daily_radio" id="daily_radio1" value="daily_every" checked/> Every
-                        </label>
+            <div class="col-md-offset-2 col-md-8 " ng-show="daily">
+                <div class="well">
+                    <div class="row">
+                        <div class="radio col-md-3">
+                            <label>
+                                <input type="radio" ng-model="daily_radio" name="daily_radio" id="daily_radio1" value="daily_every" checked/> Every
+                            </label>
+                        </div>
+                        <div class="col-md-6" style="display:flex;">
+                            <input ng-model="daily_every_day" type="number" class="form-control" min="0"/> <span> day(s)</span>
+                        </div>
                     </div>
-                    <div class="col-md-6" style="display:flex;">
-                        <input ng-model="daily_every_day" type="number" class="form-control" min="0"/> <span> day(s)</span>
+                    <br>
+                    <div class="row" >
+                        <div class="radio col-md-4">
+                            <label>
+                                <input type="radio" ng-model="daily_radio" name="daily_radio" id="daily_radio2" value="daily_every_week"> Every Week Day
+                            </label>
+                        </div>
                     </div>
+                    <br>
+                    <div class="row" >
+                        <div class="col-md-3">
+                            <label>
+                                Starts at
+                            </label>
+                        </div>
+                        <div class="col-md-6" style="display:flex;">
+                            <select class="form-control" ng-model="daily_starts_hour">
+                                <option ng-repeat="opt in hours_list" value="{{opt.value}}">{{opt.name}}</option>                           
+                            </select>
+                            <select class="form-control" ng-model="daily_starts_min">
+                                <option ng-repeat="opt in minutes_list" value="{{opt.value}}">{{opt.name}}</option>                           
+                            </select>
+                            
+                        </div>
+                    </div>
+                    <br>
                 </div>
-                <br>
-                <div class="row" >
-                    <div class="radio col-md-4">
-                        <label>
-                            <input type="radio" ng-model="daily_radio" name="daily_radio" id="daily_radio2" value="daily_every_week"> Every Week Day
-                        </label>
-                    </div>
-                </div>
-                <br>
-                <div class="row" >
-                    <div class="col-md-3">
-                        <label>
-                            Starts at
-                        </label>
-                    </div>
-                    <div class="col-md-6" style="display:flex;">
-                        <input ng-model="daily_starts_hour" type="number" class="form-control" min="0" max="23"/><input ng-model="daily_starts_min" type="number" class="form-control" min="0" max="59"/>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
+                <div class="row well">
                     <label for="retention" class="col-md-3 control-label">Retention</label>
                     <div class="col-md-4">
                         <input ng-model="daily_retention_period" type="number" class="form-control" id="retention" placeholder="period" />
@@ -155,28 +172,36 @@
                 </div>
             </div>
             
-            <div class="col-md-offset-2 col-md-8 well"  ng-show="weekly">
-                <div class="row">
-                    <div class="col-md-10">
-                        <label class="checkbox-inline"  ng-repeat="day in week_days_list">
-                            <input type="checkbox" ng-model="selectedDays[$index]" id="{{day}}" ng-true-value="'{{day}}'" > {{day}}
-                        </label>                        
-                    </div>
+            <div class="col-md-offset-2 col-md-8"  ng-show="weekly">
+                <div class="well" >
+                    <div class="row">
+                        <div class="col-md-10">
+                            <label class="checkbox-inline"  ng-repeat="day in week_days_list">
+                                <input type="checkbox" ng-model="selectedDays[$index]" id="{{day}}" ng-true-value="'{{day}}'" > {{day}}
+                            </label>                        
+                        </div>
 
-                </div>
-                <br>
-                <div class="row" >
-                    <div class="col-md-3">
-                        <label>
-                            Starts at
-                        </label>
                     </div>
-                    <div class="col-md-6" style="display:flex;">
-                        <input ng-model="weekly_starts_hour" type="number" class="form-control" min="0" max="23"/><input ng-model="weekly_starts_min" type="number" class="form-control" min="0" max="59"/>
+                    <br>
+                    <div class="row" >
+                        <div class="col-md-3">
+                            <label>
+                                Starts at
+                            </label>
+                        </div>
+                        <div class="col-md-6" style="display:flex;">
+                            <select class="form-control" ng-model="weekly_starts_hour">
+                                <option ng-repeat="opt in hours_list" value="{{opt.value}}">{{opt.name}}</option>                           
+                            </select>
+                            <select class="form-control" ng-model="weekly_starts_min">
+                                <option ng-repeat="opt in minutes_list" value="{{opt.value}}">{{opt.name}}</option>                           
+                            </select>
+                            
+                        </div>
                     </div>
+                    <br>
                 </div>
-                <br>
-                <div class="row">
+                <div class="row well">
                     <label for="retention" class="col-md-3 control-label">Retention</label>
                     <div class="col-md-4">
                         <input ng-model="weekly_retention_period" type="number" class="form-control" id="retention" placeholder="period" />
@@ -197,53 +222,61 @@
                     </label>
                 </div>
             </div>
-            <div class="col-md-offset-2 col-md-8 well" ng-show="monthly">
-                <div class="row">
-                    <div class="radio col-md-2">
-                        <label>
-                            <input type="radio" ng-model="monthly_radio" name="monthly_radio" id="monthly_radio1" value="monthly_radio_day" checked/> Day
-                        </label>
-                    </div>
-                    <div class="col-md-5" style="display:flex;">
-                        <input ng-model="monthly_day" type="number" class="form-control" min="1" max="31"/>  <span> every </span>
-                    </div>
-                    <div class="col-md-5" style="display:flex;">
-                        <input ng-model="monthly_month" type="number" class="form-control" min="1" max="12"/> <span> months(s)</span>
-                    </div>
-                </div>
-                <br>
-                <div class="row" >
-                    <div class="col-md-12" style="display:flex;">
-                        <div class="radio">
-                            <label class="spacing">
-                                <input type="radio" ng-model="monthly_radio" name="monthly_radio" id="monthly_radio2" value="monthly_radio_the"> The
+            <div class="col-md-offset-2 col-md-8" ng-show="monthly">
+                <div class="well">
+                    <div class="row">
+                        <div class="radio col-md-2">
+                            <label>
+                                <input type="radio" ng-model="monthly_radio" name="monthly_radio" id="monthly_radio1" value="monthly_radio_day" checked/> Day
                             </label>
                         </div>
-                        <div style="display:flex;">                            
-                            <select class="form-control" ng-model="monthly_the_mon_day">
-                                <option ng-repeat="opt in month_day_type_list">{{opt}}</option>                            
-                            </select>                                
-                            <select class="form-control" ng-model="monthly_the_week_day">
-                                <option ng-repeat="opt in week_days_list">{{opt}}</option>                            
-                            </select>                                
-                            <span class="spacing"> of every </span>
-                            <input ng-model="monthly_every_month" type="number" class="form-control" min="1"/> <span> month(s) </span>
+                        <div class="col-md-5" style="display:flex;">
+                            <input ng-model="monthly_day" type="number" class="form-control" min="1" max="31"/>  <span> every </span>
+                        </div>
+                        <div class="col-md-5" style="display:flex;">
+                            <input ng-model="monthly_month" type="number" class="form-control" min="1" max="12"/> <span> months(s)</span>
                         </div>
                     </div>
-                </div>
-                <br>
-                <div class="row" >
-                    <div class="col-md-3">
-                        <label>
-                            Starts at
-                        </label>
+                    <br>
+                    <div class="row" >
+                        <div class="col-md-12" style="display:flex;">
+                            <div class="radio">
+                                <label class="spacing">
+                                    <input type="radio" ng-model="monthly_radio" name="monthly_radio" id="monthly_radio2" value="monthly_radio_the"> The
+                                </label>
+                            </div>
+                            <div style="display:flex;">                            
+                                <select class="form-control" ng-model="monthly_the_mon_day">
+                                    <option ng-repeat="opt in month_day_type_list" >{{opt}}</option>                            
+                                </select>                                
+                                <select class="form-control" ng-model="monthly_the_week_day">
+                                    <option ng-repeat="opt in week_days_list">{{opt}}</option>                            
+                                </select>                                
+                                <span class="spacing"> of every </span>
+                                <input ng-model="monthly_every_month" type="number" class="form-control" min="1"/> <span> month(s) </span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6" style="display:flex;">
-                        <input ng-model="monthly_starts_hour" type="number" class="form-control" min="0" max="23"/><input ng-model="monthly_starts_min" type="number" class="form-control"  min="0" max="59"/>
+                    <br>
+                    <div class="row" >
+                        <div class="col-md-3">
+                            <label>
+                                Starts at
+                            </label>
+                        </div>
+                        <div class="col-md-6" style="display:flex;">
+                            <select class="form-control" ng-model="monthly_starts_hour">
+                                <option ng-repeat="opt in hours_list" value="{{opt.value}}">{{opt.name}}</option>                           
+                            </select>
+                            <select class="form-control" ng-model="monthly_starts_min">
+                                <option ng-repeat="opt in minutes_list" value="{{opt.value}}">{{opt.name}}</option>                           
+                            </select>
+                            
+                        </div>
                     </div>
+                    <br>
                 </div>
-                <br>
-                <div class="row">
+                <div class="row well">
                     <label for="retention" class="col-md-3 control-label">Retention</label>
                     <div class="col-md-4">
                         <input ng-model="monthly_retention_period" type="number" class="form-control" id="retention" placeholder="period" />
@@ -264,56 +297,64 @@
                     </label>
                 </div>
             </div>
-            <div class="col-md-offset-2 col-md-8 well" ng-show="yearly">
-                <div class="row">
-                    <div class="radio col-md-2">
-                        <label>
-                            <input type="radio" ng-model="yearly_radio" name="yearly_radio" id="yearly_radio1" value="yearly_radio_every" checked/> Every
-                        </label>
-                    </div>
-                    <div class="col-md-8" style="display:flex;">                        
-                        <select class="form-control" ng-model="yearly_every_year">
-                            <option ng-repeat="opt in months_list" value="{{$index+1}}">{{opt}}</option>                            
-                        </select>
-                        <input ng-model="yearly_every_day" type="number" class="form-control" min="1" max="31"/>
-                    </div>
-                </div>
-                <br>                
-                <div class="row" >
-                    <div class="col-md-12" style="display:flex;">
-                        <div class="radio">
-                            <label class="spacing">
-                                <input type="radio" ng-model="yearly_radio" name="yearly_radio" id="yearly_radio2" value="yearly_radio_the"> The
+            <div class="col-md-offset-2 col-md-8 " ng-show="yearly">
+                <div class="well">
+                    <div class="row">
+                        <div class="radio col-md-2">
+                            <label>
+                                <input type="radio" ng-model="yearly_radio" name="yearly_radio" id="yearly_radio1" value="yearly_radio_every" checked/> Every
                             </label>
                         </div>
-                        <div style="display:flex;">
-                            <select class="form-control" ng-model="yearly_the_mon_day">
-                                <option ng-repeat="opt in month_day_type_list">{{opt}}</option>                            
+                        <div class="col-md-8" style="display:flex;">                        
+                            <select class="form-control" ng-model="yearly_every_year">
+                                <option ng-repeat="opt in months_list" value="{{opt.value}}">{{opt.name}}</option>                            
                             </select>
-                            <select class="form-control" ng-model="yearly_the_week_day">
-                                <option ng-repeat="opt in week_days_list">{{opt}}</option>                            
-                            </select>                         
-                            <span class="spacing"> of </span>
-                            
-                            <select class="form-control" ng-model="yearly_the_year">
-                                <option ng-repeat="opt in months_list" value="{{$index+1}}">{{opt}}</option>                            
-                            </select>                                
+                            <input ng-model="yearly_every_day" type="number" class="form-control" min="1" max="31"/>
                         </div>
                     </div>
-                </div>
-                <br>
-                <div class="row" >
-                    <div class="col-md-3">
-                        <label>
-                             Starts at
-                        </label>
+                    <br>                
+                    <div class="row" >
+                        <div class="col-md-12" style="display:flex;">
+                            <div class="radio">
+                                <label class="spacing">
+                                    <input type="radio" ng-model="yearly_radio" name="yearly_radio" id="yearly_radio2" value="yearly_radio_the"> The
+                                </label>
+                            </div>
+                            <div style="display:flex;">
+                                <select class="form-control" ng-model="yearly_the_mon_day">
+                                    <option ng-repeat="opt in month_day_type_list">{{opt}}</option>                            
+                                </select>
+                                <select class="form-control" ng-model="yearly_the_week_day">
+                                    <option ng-repeat="opt in week_days_list">{{opt}}</option>                            
+                                </select>                         
+                                <span class="spacing"> of </span>
+                                
+                                <select class="form-control" ng-model="yearly_the_year">
+                                    <option ng-repeat="opt in months_list" value="{{opt.value}}">{{opt.name}}</option>                            
+                                </select>                                
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6" style="display:flex;">
-                        <input ng-model="yearly_starts_hour" type="number" class="form-control" min="0" max="23"/><input ng-model="yearly_starts_min" type="number" class="form-control" min="0" max="59"/>
+                    <br>
+                    <div class="row" >
+                        <div class="col-md-3">
+                            <label>
+                                Starts at
+                            </label>
+                        </div>
+                        <div class="col-md-6" style="display:flex;">
+                            <select class="form-control" ng-model="yearly_starts_hour">
+                                <option ng-repeat="opt in hours_list" value="{{opt.value}}">{{opt.name}}</option>                           
+                            </select>
+                            <select class="form-control" ng-model="yearly_starts_min">
+                                <option ng-repeat="opt in minutes_list" value="{{opt.value}}">{{opt.name}}</option>                           
+                            </select>
+                            
+                        </div>
                     </div>
+                    <br>
                 </div>
-                <br>
-                <div class="row">
+                <div class="row well">
                     <label for="retention" class="col-md-3 control-label">Retention</label>
                     <div class="col-md-4">
                         <input ng-model="yearly_retention_period" type="number" class="form-control" id="retention" placeholder="period" />
@@ -328,7 +369,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-4">
-                <button type="submit" class="btn btn-default" ng-click="getData()">Save</button>
+                <button type="submit" class="btn btn-default" ng-click="sendData()">Save</button>
                 <button type="reset" class="btn btn-default">Cancel</button>
             </div>
             <div class="col-md-offset-2 col-md-4">
